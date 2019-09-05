@@ -4,6 +4,29 @@
 OSMBorder extracts the admin boundary data from an OSM planet file and assembles
 all the pieces into linestrings for use in map renderers etc.
 
+## Additions in this fork
+
+osmborder_filter has extra options `-c,  --changefile` a json file containing changes requested
+
+- relations can be whitelisted ( i.e. always added even if not admin boundary ) or blacklisted ( i.e. never added )
+- tags can be changed for ways
+
+```
+{
+   "relations" : [
+      { "osm_id" : 48020, "whitelist" : true },
+      { "osm_id" : 48021, "blacklist" : true }
+   ],
+   "ways" : [
+      {
+         "osm_id" : 48022,
+         "admin_level" : "2",
+         "boundary" : "administrative"
+      }
+   ]
+}
+```
+
 ## Prerequisites
 
 ### Libosmium
@@ -81,10 +104,10 @@ relation members.
 The admin_level is the lowest `admin_level` value of the parent relations. The way tags are not considered.
 
 ### disputed
-The presence of `disputed=yes`, `dispute=yes`, `border_status=dispute` or `disputed_by=*` on the ways is used to indicate part of a border is disputed. All the tags function the same, but `disputed=yes` is my preference. Relation tags are not considered.
+The presence of `disputed=yes`, `dispute=yes`, or `border_status=dispute` on the ways is used to indicate part of a border is disputed. All the tags function the same, but `disputed=yes` is my preference. Relation tags are not considered.
 
 ### maritime
-`maritime=yes`, `natural=coastline` or `boundary_type=maritime` indicates a maritime border for the purposes of rendering. Relations are not considered, nor intersection with water areas.
+`maritime=yes` or `natural=coastline` indicates a maritime border for the purposes of rendering. Relations are not considered, nor intersection with water areas.
 
 ## Options
 
